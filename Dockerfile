@@ -38,8 +38,10 @@ WORKDIR /go/src/tailscale
 COPY go.mod go.sum ./
 RUN go mod download
 
-# Pre-build some stuff before the following COPY line invalidates the Docker cache.
-RUN go install \
+RUN apk add --no-cache git
+
+# Install required packages
+RUN go get \
     github.com/aws/aws-sdk-go-v2/aws \
     github.com/aws/aws-sdk-go-v2/config \
     gvisor.dev/gvisor/pkg/tcpip/adapters/gonet \
